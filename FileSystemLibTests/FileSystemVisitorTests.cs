@@ -177,8 +177,8 @@ namespace FileSystemLibTests
                 bool finishNotEmpty = false;
 
                 FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName);
-                System.EventHandler startHandler = (o, e) => { if (fsv.TreeListing.Count == 0) startEmpty = true; };
-                System.EventHandler finishHandler = (o, e) => { if (fsv.TreeListing.Count > 0) finishNotEmpty = true; };
+                System.EventHandler startHandler = (o, e) => { if (fsv.PathsFoundList.Count == 0) startEmpty = true; };
+                System.EventHandler finishHandler = (o, e) => { if (fsv.PathsFoundList.Count > 0) finishNotEmpty = true; };
 
                 fsv.Start += startHandler;
                 fsv.Finish += finishHandler;

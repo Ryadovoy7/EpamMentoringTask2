@@ -19,7 +19,7 @@ namespace FileSystemVisitorLib
         public FileSystemVisitor(string startPath)
         {
             this.startPath = startPath;
-            this.treeListing = new List<string>();
+            this.pathsFoundList = new List<string>();
         }
 
         public FileSystemVisitor(string startPath, FSVFilter? filter) : this(startPath)
@@ -27,10 +27,10 @@ namespace FileSystemVisitorLib
             this.filter = filter;
         }
 
-        private List<string> treeListing;
-        public List<string> TreeListing
+        private List<string> pathsFoundList;
+        public List<string> PathsFoundList
         {
-            get { return new List<string>(treeListing); }
+            get { return new List<string>(pathsFoundList); }
         }
 
 
@@ -99,7 +99,7 @@ namespace FileSystemVisitorLib
                         continue;
                 }
 
-                treeListing.Add(path);
+                pathsFoundList.Add(path);
                 yield return new PathEnumerationState { path = path, stop = false };
             }
         }
