@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonStop = new System.Windows.Forms.Button();
             this.checkboxAddEventTexts = new System.Windows.Forms.CheckBox();
             this.checkboxStopAfter = new System.Windows.Forms.CheckBox();
             this.buttonStart = new System.Windows.Forms.Button();
@@ -74,6 +75,7 @@
             // panel1
             // 
             this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.buttonStop);
             this.panel1.Controls.Add(this.checkboxAddEventTexts);
             this.panel1.Controls.Add(this.checkboxStopAfter);
             this.panel1.Controls.Add(this.buttonStart);
@@ -83,6 +85,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(526, 29);
             this.panel1.TabIndex = 4;
+            // 
+            // buttonStop
+            // 
+            this.buttonStop.Location = new System.Drawing.Point(84, 3);
+            this.buttonStop.Name = "buttonStop";
+            this.buttonStop.Size = new System.Drawing.Size(75, 23);
+            this.buttonStop.TabIndex = 5;
+            this.buttonStop.Text = "Stop";
+            this.buttonStop.UseVisualStyleBackColor = true;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
             // 
             // checkboxAddEventTexts
             // 
@@ -148,6 +160,7 @@
             this.textboxResult.Location = new System.Drawing.Point(8, 99);
             this.textboxResult.Multiline = true;
             this.textboxResult.Name = "textboxResult";
+            this.textboxResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textboxResult.Size = new System.Drawing.Size(526, 532);
             this.textboxResult.TabIndex = 6;
             // 
@@ -187,5 +200,6 @@
         private CheckBox checkboxAddEventTexts;
         private NumericUpDown updownStopAfter;
         private CheckBox checkboxStopAfter;
+        private Button buttonStop;
     }
 }

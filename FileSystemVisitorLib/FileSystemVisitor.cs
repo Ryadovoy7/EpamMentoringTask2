@@ -5,8 +5,8 @@ namespace FileSystemVisitorLib
 {
     public class FileSystemVisitor : IEnumerable
     {
-        private string startPath;
-        private FSVFilter? filter;
+        private string _startPath;
+        private FSVFilter? _filter;
 
         public event EventHandler? Start;
         public event EventHandler? Finish;
@@ -18,33 +18,33 @@ namespace FileSystemVisitorLib
 
         public FileSystemVisitor(string startPath)
         {
-            this.startPath = startPath;
-            this.pathsFoundList = new List<string>();
+            _startPath = startPath;
+            _pathsFoundList = new List<string>();
         }
 
         public FileSystemVisitor(string startPath, FSVFilter? filter) : this(startPath)
         {
-            this.filter = filter;
+            _filter = filter;
         }
 
-        private List<string> pathsFoundList;
+        private List<string> _pathsFoundList;
         public List<string> PathsFoundList
         {
-            get { return new List<string>(pathsFoundList); }
+            get { return new List<string>(_pathsFoundList); }
         }
 
 
         public IEnumerator GetEnumerator()
         {
             Start?.Invoke(this, new EventArgs());
-            if (Directory.Exists(startPath))
+            if (Directory.Exists(_startPath))
             {
-                foreach (PathEnumerationState path in TraverseDirectoryTree(startPath))
+                foreach (PathEnumerationState path in TraverseDirectoryTree(_startPath))
                 {
-                    if (path.stop)
+                    if (path.Stop)
                         break;
                     else
-                        yield return path.path;
+                        yield return path.Path;
                 }
             }
             Finish?.Invoke(this, new EventArgs());
@@ -54,7 +54,21 @@ namespace FileSystemVisitorLib
         private IEnumerable<PathEnumerationState> TraverseDirectoryTree(string dir)
         {
             // ищем директории
-            List<string> directories = Directory.GetDirectories(dir).ToList();
+            List<string>? directories = null; bool inaccessible = false;
+            try
+            {
+                directories = Directory.GetDirectories(dir).ToList();
+            }
+            catch(UnauthorizedAccessException)
+            {
+                inaccessible = true;
+            }
+            if (inaccessible)
+            {
+                yield return new PathEnumerationState() {Path = $"The directory \"{dir}\" is inaccessible.", Stop = false};
+                yield break;
+            }
+                
             foreach (string directory in directories)
             {
                 foreach (PathEnumerationState path in TraverseDirectoryTree(directory))
@@ -81,11 +95,11 @@ namespace FileSystemVisitorLib
                 if (foundArgs.RemoveFromList)
                     continue;
                 if (foundArgs.Stop)
-                    yield return new PathEnumerationState { path = path, stop = true };
+                    yield return new PathEnumerationState { Path = path, Stop = true };
 
-                if (filter != null)
+                if (_filter != null)
                 {
-                    bool filterResult = filter(path);
+                    bool filterResult = _filter(path);
                     if (filterResult)
                     {
                         var filteredFoundArgs = new FileSystemVisitorEventArgs(path);
@@ -93,21 +107,21 @@ namespace FileSystemVisitorLib
                         if (filteredFoundArgs.RemoveFromList)
                             continue;
                         if (filteredFoundArgs.Stop)
-                            yield return new PathEnumerationState { path = path, stop = true };
+                            yield return new PathEnumerationState { Path = path, Stop = true };
                     }
                     else
                         continue;
                 }
 
-                pathsFoundList.Add(path);
-                yield return new PathEnumerationState { path = path, stop = false };
+                _pathsFoundList.Add(path);
+                yield return new PathEnumerationState { Path = path, Stop = false };
             }
         }
 
         struct PathEnumerationState
         {
-            public string path;
-            public bool stop;
+            public string Path;
+            public bool Stop;
         }
     }
 
