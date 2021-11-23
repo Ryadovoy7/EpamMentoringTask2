@@ -4,9 +4,15 @@ using System.IO;
 namespace Task2.FileSystemVisitor.Lib
 {
     public class FileSystemVisitor : IEnumerable
-    {
+    {     
         private string _startPath;
         private FSVFilter? _filter;
+
+        struct PathEnumerationState
+        {
+            public string Path;
+            public bool Stop;
+        }
 
         public event EventHandler? Start;
         public event EventHandler? Finish;
@@ -16,23 +22,22 @@ namespace Task2.FileSystemVisitor.Lib
         public event FileSystemVisitorEventHandler? FilteredFileFinded;
         public event FileSystemVisitorEventHandler? FilteredDirectoryFinded;
 
-        public FileSystemVisitor(string startPath)
-        {
-            _startPath = startPath;
-            _pathsFoundList = new List<string>();
-        }
-
-        public FileSystemVisitor(string startPath, FSVFilter? filter) : this(startPath)
-        {
-            _filter = filter;
-        }
-
         private List<string> _pathsFoundList;
         public List<string> PathsFoundList
         {
             get { return new List<string>(_pathsFoundList); }
         }
 
+        public FileSystemVisitor(string startPath)
+        {
+            _startPath = startPath;
+            _pathsFoundList = new List<string>();
+        }
+
+        public FileSystemVisitor(string startPath, FSVFilter filter) : this(startPath)
+        {
+            _filter = filter;
+        }
 
         public IEnumerator GetEnumerator()
         {
@@ -54,7 +59,8 @@ namespace Task2.FileSystemVisitor.Lib
         private IEnumerable<PathEnumerationState> TraverseDirectoryTree(string dir)
         {
             // ищем директории
-            string[]? directories = null; bool inaccessible = false;
+            string[]? directories = null; 
+            bool inaccessible = false;
             try
             {
                 directories = Directory.GetDirectories(dir);
@@ -71,16 +77,16 @@ namespace Task2.FileSystemVisitor.Lib
 
             foreach (string directory in directories)
             {
-                foreach (PathEnumerationState path in TraverseDirectoryTree(directory))
-                    yield return path;
+                foreach (PathEnumerationState pathState in TraverseDirectoryTree(directory))
+                    yield return pathState;
             }
-            foreach (PathEnumerationState path in ProcessFoundPaths(directories, DirectoryFinded, FilteredDirectoryFinded))
-                yield return path;
+            foreach (PathEnumerationState pathState in ProcessFoundPaths(directories, DirectoryFinded, FilteredDirectoryFinded))
+                yield return pathState;
 
             // ищем файлы
-            string[] files = Directory.GetFiles(dir);
-            foreach (PathEnumerationState path in ProcessFoundPaths(files, FileFinded, FilteredFileFinded))
-                yield return path;
+            var files = Directory.GetFiles(dir);
+            foreach (PathEnumerationState pathState in ProcessFoundPaths(files, FileFinded, FilteredFileFinded))
+                yield return pathState;
         }
 
         private IEnumerable<PathEnumerationState> ProcessFoundPaths(IEnumerable<string> paths,
@@ -118,11 +124,7 @@ namespace Task2.FileSystemVisitor.Lib
             }
         }
 
-        struct PathEnumerationState
-        {
-            public string Path;
-            public bool Stop;
-        }
+
     }
 
     public delegate bool FSVFilter(string path);
