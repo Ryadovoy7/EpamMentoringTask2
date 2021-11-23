@@ -30,7 +30,7 @@ namespace Task2.FileSystemVisitor.Lib
 
         public FileSystemVisitor(string startPath)
         {
-            _startPath = startPath;
+            _startPath = startPath.Trim();
             _pathsFoundList = new List<string>();
         }
 
