@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FileSystemVisitorLib\FileSystemVisitorLib.csproj" />
+    <ProjectReference Include="..\FileSystemVisitorLib\FileSystemVisitor.csproj" />
   </ItemGroup>
 
 </Project>

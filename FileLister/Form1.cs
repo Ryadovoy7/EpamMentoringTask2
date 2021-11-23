@@ -1,5 +1,4 @@
-using FileSystemVisitorLib;
-
+using Task2.FileSystemVisitor.Lib;
 namespace FileLister
 {
     public partial class Form1 : Form
@@ -25,10 +24,10 @@ namespace FileLister
         private void FindPaths()
         {
             FileSystemVisitor fsv;
-            if (String.IsNullOrEmpty(textboxMustContain.Text))
+            if (String.IsNullOrEmpty(textboxFilter.Text))
                 fsv = new FileSystemVisitor(textboxStartingPoint.Text);
             else
-                fsv = new FileSystemVisitor(textboxStartingPoint.Text, str => str.Contains(textboxMustContain.Text));
+                fsv = new FileSystemVisitor(textboxStartingPoint.Text, str => str.Contains(textboxFilter.Text));
 
             if (checkboxAddEventTexts.Checked)
             {

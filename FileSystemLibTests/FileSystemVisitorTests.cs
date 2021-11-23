@@ -1,16 +1,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FileSystemVisitorLib;
 using System.IO;
 using System.Collections;
 
-namespace FileSystemLibTests
+using Task2.FileSystemVisitor.Lib;
+
+namespace Task2.FileSystemVisitor.Tests
 {
     [TestClass]
     public class FileSystemVisitorTests
     {
-        const string STR_Start = "Start";
-        const string STR_Finish = "Finish";
-
         [TestMethod]
         public void TestMethodFilesCounted()
         {
@@ -25,7 +23,7 @@ namespace FileSystemLibTests
                 var file3 = File.Create(Path.Combine(testDirRoot.FullName, Path.GetRandomFileName()));
                 file3.Close();
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName);
 
                 int count = 0;
                 foreach (var path in fsv)
@@ -52,7 +50,7 @@ namespace FileSystemLibTests
                 var file1 = File.Create(fileName);
                 file1.Close();
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName);
                 IEnumerator e_fsv = ((IEnumerable)fsv).GetEnumerator();
                 e_fsv.MoveNext();
 
@@ -83,7 +81,7 @@ namespace FileSystemLibTests
 
                 FSVFilter filter = p => p == dir2.FullName || p == filename2;
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName, filter);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName, filter);
 
                 int count = 0;
                 foreach (var path in fsv)
@@ -111,7 +109,7 @@ namespace FileSystemLibTests
                 var filename = file1.Name;
                 var dir1 = Directory.CreateDirectory(Path.Combine(testDirRoot.FullName, "dir1"));
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName);
                 FileSystemVisitorEventHandler removeFiltered = (o, e) => e.RemoveFromList = true;
                 fsv.FileFinded += removeFiltered;
                 fsv.DirectoryFinded += removeFiltered;
@@ -144,7 +142,7 @@ namespace FileSystemLibTests
 
                 FSVFilter filter = p => p == dir1.FullName || p == filename;
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName, filter);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName, filter);
                 FileSystemVisitorEventHandler removeFiltered = (o, e) => e.RemoveFromList = true;
                 fsv.FilteredFileFinded += removeFiltered;
                 fsv.FilteredDirectoryFinded += removeFiltered;
@@ -176,7 +174,7 @@ namespace FileSystemLibTests
                 bool startEmpty = false;
                 bool finishNotEmpty = false;
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName);
                 System.EventHandler startHandler = (o, e) => { if (fsv.PathsFoundList.Count == 0) startEmpty = true; };
                 System.EventHandler finishHandler = (o, e) => { if (fsv.PathsFoundList.Count > 0) finishNotEmpty = true; };
 
@@ -210,7 +208,7 @@ namespace FileSystemLibTests
                 var file2 = File.Create(filename2);
                 file2.Close();
 
-                FileSystemVisitor fsv = new FileSystemVisitor(testDirRoot.FullName);
+                Lib.FileSystemVisitor fsv = new Lib.FileSystemVisitor(testDirRoot.FullName);
                 FileSystemVisitorEventHandler stopWhenFile2Found = (o, e) => { if (filename2 == e.Path) e.Stop = true; };
 
                 fsv.FileFinded += stopWhenFile2Found;

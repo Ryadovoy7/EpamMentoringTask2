@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.IO;
 
-namespace FileSystemVisitorLib
+namespace Task2.FileSystemVisitor.Lib
 {
     public class FileSystemVisitor : IEnumerable
     {
@@ -54,21 +54,21 @@ namespace FileSystemVisitorLib
         private IEnumerable<PathEnumerationState> TraverseDirectoryTree(string dir)
         {
             // ищем директории
-            List<string>? directories = null; bool inaccessible = false;
+            string[]? directories = null; bool inaccessible = false;
             try
             {
-                directories = Directory.GetDirectories(dir).ToList();
+                directories = Directory.GetDirectories(dir);
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 inaccessible = true;
             }
             if (inaccessible)
             {
-                yield return new PathEnumerationState() {Path = $"The directory \"{dir}\" is inaccessible.", Stop = false};
+                yield return new PathEnumerationState() { Path = $"The directory \"{dir}\" is inaccessible.", Stop = false };
                 yield break;
             }
-                
+
             foreach (string directory in directories)
             {
                 foreach (PathEnumerationState path in TraverseDirectoryTree(directory))
@@ -83,7 +83,7 @@ namespace FileSystemVisitorLib
                 yield return path;
         }
 
-        private IEnumerable<PathEnumerationState> ProcessFoundPaths(List<string> paths,
+        private IEnumerable<PathEnumerationState> ProcessFoundPaths(IEnumerable<string> paths,
             FileSystemVisitorEventHandler? actionFound,
             FileSystemVisitorEventHandler? actionFiltered)
         {
@@ -128,18 +128,5 @@ namespace FileSystemVisitorLib
     public delegate bool FSVFilter(string path);
 
     public delegate void FileSystemVisitorEventHandler(object sender, FileSystemVisitorEventArgs e);
-    public class FileSystemVisitorEventArgs
-    {
-        public string Path { get; }
-        public bool RemoveFromList { get; set; }
-        public bool Stop { get; set; }
-
-        public FileSystemVisitorEventArgs(string path)
-        {
-            Path = path;
-            RemoveFromList = false;
-            Stop = false;
-        }
-    }
 }
 

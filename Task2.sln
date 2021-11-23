@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileLister", "FileLister\FileLister.csproj", "{84A7C6F4-A1E1-4A1B-85D9-D02E442908E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemLibTests", "FileSystemLibTests\FileSystemLibTests.csproj", "{5591B70A-A2BA-42A4-BA2A-679702BBBACD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemVisitor.Tests", "FileSystemLibTests\FileSystemVisitor.Tests.csproj", "{5591B70A-A2BA-42A4-BA2A-679702BBBACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemVisitorLib", "FileSystemVisitorLib\FileSystemVisitorLib.csproj", "{96362E46-A63D-444D-BA56-C4287F6C6696}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemVisitor", "FileSystemVisitorLib\FileSystemVisitor.csproj", "{96362E46-A63D-444D-BA56-C4287F6C6696}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

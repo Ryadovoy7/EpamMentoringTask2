@@ -37,7 +37,7 @@
             this.checkboxStopAfter = new System.Windows.Forms.CheckBox();
             this.buttonStart = new System.Windows.Forms.Button();
             this.updownStopAfter = new System.Windows.Forms.NumericUpDown();
-            this.textboxMustContain = new System.Windows.Forms.TextBox();
+            this.textboxFilter = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textboxResult = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
@@ -136,13 +136,13 @@
             this.updownStopAfter.Size = new System.Drawing.Size(40, 23);
             this.updownStopAfter.TabIndex = 3;
             // 
-            // textboxMustContain
+            // textboxFilter
             // 
-            this.textboxMustContain.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textboxMustContain.Location = new System.Drawing.Point(8, 61);
-            this.textboxMustContain.Name = "textboxMustContain";
-            this.textboxMustContain.Size = new System.Drawing.Size(526, 23);
-            this.textboxMustContain.TabIndex = 3;
+            this.textboxFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textboxFilter.Location = new System.Drawing.Point(8, 61);
+            this.textboxFilter.Name = "textboxFilter";
+            this.textboxFilter.Size = new System.Drawing.Size(526, 23);
+            this.textboxFilter.TabIndex = 3;
             // 
             // label3
             // 
@@ -171,7 +171,7 @@
             this.ClientSize = new System.Drawing.Size(542, 668);
             this.Controls.Add(this.textboxResult);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textboxMustContain);
+            this.Controls.Add(this.textboxFilter);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textboxStartingPoint);
@@ -194,12 +194,12 @@
         private Label label2;
         private Panel panel1;
         private Button buttonStart;
-        private TextBox textboxMustContain;
         private Label label3;
         private TextBox textboxResult;
         private CheckBox checkboxAddEventTexts;
         private NumericUpDown updownStopAfter;
         private CheckBox checkboxStopAfter;
         private Button buttonStop;
+        private TextBox textboxFilter;
     }
 }
