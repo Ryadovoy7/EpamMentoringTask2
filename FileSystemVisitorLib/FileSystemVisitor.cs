@@ -78,7 +78,7 @@ namespace Task2.FileSystemVisitor.Lib
                 yield return path;
 
             // ищем файлы
-            List<string> files = Directory.GetFiles(dir).ToList();
+            string[] files = Directory.GetFiles(dir);
             foreach (PathEnumerationState path in ProcessFoundPaths(files, FileFinded, FilteredFileFinded))
                 yield return path;
         }
